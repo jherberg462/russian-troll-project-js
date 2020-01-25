@@ -1,0 +1,7 @@
+h1, p {
+    font-family: fantasy;
+}
+
+.col-md-12 jumbotron text-center {
+    background-color: #b24444;
+}
