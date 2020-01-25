@@ -1,3 +1,4 @@
+
 var trace1 = {
     x:[],
     y:[],
@@ -21,7 +22,9 @@ var layout = {
         r: 100,
         t: 100,
         b: 30
-    }
+    },
+    // paper_bgcolor: 'rgba(0,0,0,0)',
+    // plot_bgcolor: 'rgba(0,0,0,0)'
 };
 
 Plotly.newPlot("bar", data, layout);
