@@ -16,6 +16,7 @@ from flask import Flask, jsonify
 import time
 import warnings
 warnings.filterwarnings("ignore")
+from flask_cors import CORS
 
 
 # In[ ]:
@@ -48,6 +49,8 @@ Tweets = Base.classes.tweets
 
 #set variable 'app' to run Flask
 app = Flask(__name__)
+#allow Cross Origin Resource Sharing
+CORS(app)
 
 
 # In[ ]:
