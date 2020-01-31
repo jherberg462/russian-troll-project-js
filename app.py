@@ -256,11 +256,11 @@ def account_dashbord(account):
         result_dictionary['latest_tweet'] = max_tweet_date1
         min_tweet_date1 = dt.datetime.fromtimestamp(min_tweet_date).strftime('%Y-%m-%d')
         result_dictionary['earliest_tweet'] = min_tweet_date1
-        result_dictionary['number_of_tweets'] = num_tweets
+        result_dictionary['number_of_tweets'] = float(num_tweets)
         result_dictionary['account_category'] = category
         #the interaction are regarding the original tweet, if the subject author is not the author of the tweet
         #for example a retweet, or quote tweet
-        result_dictionary['num_interactions_per_tweet'] = interactions
+        result_dictionary['num_interactions_per_tweet'] = float(interactions)
     #consider making a second query for information only prior to the election
     results.append(result_dictionary)
     #same query as above, but filtering by only tweets prior to Nov 8, 2016 (the 2016 election date)
@@ -273,11 +273,11 @@ def account_dashbord(account):
         result_dictionary_b4_election['latest_tweet_b4'] = max_tweet_date1
         min_tweet_date1 = dt.datetime.fromtimestamp(min_tweet_date).strftime('%Y-%m-%d')
         result_dictionary_b4_election['earliest_tweet_b4'] = min_tweet_date1
-        result_dictionary_b4_election['number_of_tweets_b4'] = num_tweets
+        result_dictionary_b4_election['number_of_tweets_b4'] = float(num_tweets)
         result_dictionary_b4_election['account_category_b4'] = category
         #the interaction are regarding the original tweet, if the subject author is not the author of the tweet
         #for example a retweet, or quote tweet
-        result_dictionary_b4_election['num_interactions_per_tweet4_b'] = interactions
+        result_dictionary_b4_election['num_interactions_per_tweet4_b'] = float(interactions)
     results.append(result_dictionary_b4_election)
     return jsonify(results)
         
