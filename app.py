@@ -113,7 +113,7 @@ def num_followers(start, end):
     #write sql query to find the most followers each account had per day that tweeted, between the start and end dates
     query_text = f'select max(followers) as followers, author, published_date from tweets where published_date < {end_converted} and published_date > {start_converted}  group by published_date, author order by published_date;'
     #read in the results from the above query into a new df
-    df_followers = pd.read_sql(q, engine)
+    df_followers = pd.read_sql(query_text, engine)
     #push the above df into a new table, and drop this table if it already exists
     df_followers.to_sql('avg_followers', con=engine, index=False, if_exists='replace')
     #add a primary key to above table so sqlalchemy can perform queries on the table
@@ -173,7 +173,7 @@ def num_following(start, end):
     #write sql query to find the most followers each account had per day that tweeted, between the start and end dates
     query_text = f'select max(following) as follow, author, published_date from tweets where published_date < {end_converted} and published_date > {start_converted}  group by published_date, author order by published_date;'
     #read in the results from the above query into a new df
-    df_followers = pd.read_sql(q, engine)
+    df_followers = pd.read_sql(query_text, engine)
     #push the above df into a new table, and drop this table if it already exists
     df_followers.to_sql('avg_following', con=engine, index=False, if_exists='replace')
     #add a primary key to above table so sqlalchemy can perform queries on the table
@@ -253,13 +253,29 @@ def account_dashbord(account):
         result_dictionary['latest_tweet'] = max_tweet_date1
         min_tweet_date1 = dt.datetime.fromtimestamp(min_tweet_date).strftime('%Y-%m-%d')
         result_dictionary['earliest_tweet'] = min_tweet_date1
-        result_dictionary['number_of_tweets'] = float(num_tweets)
+        result_dictionary['number_of_tweets'] = num_tweets
         result_dictionary['account_category'] = category
         #the interaction are regarding the original tweet, if the subject author is not the author of the tweet
         #for example a retweet, or quote tweet
-        result_dictionary['num_interactions_per_tweet'] = float(interactions)
+        result_dictionary['num_interactions_per_tweet'] = interactions
     #consider making a second query for information only prior to the election
     results.append(result_dictionary)
+    #same query as above, but filtering by only tweets prior to Nov 8, 2016 (the 2016 election date)
+    result1 = session.query(*sel).filter(Tweets.author == account).filter(Tweets.published_date < 1478563200).group_by(Tweets.author, Tweets.account_category).all()
+    session.close()
+    result_dictionary_b4_election = {}
+    for author, max_tweet_date, min_tweet_date, num_tweets, category, interactions in result1:
+        result_dictionary_b4_election['twitter_handle_b4'] = author
+        max_tweet_date1 = dt.datetime.fromtimestamp(max_tweet_date).strftime('%Y-%m-%d')
+        result_dictionary_b4_election['latest_tweet_b4'] = max_tweet_date1
+        min_tweet_date1 = dt.datetime.fromtimestamp(min_tweet_date).strftime('%Y-%m-%d')
+        result_dictionary_b4_election['earliest_tweet_b4'] = min_tweet_date1
+        result_dictionary_b4_election['number_of_tweets_b4'] = num_tweets
+        result_dictionary_b4_election['account_category_b4'] = category
+        #the interaction are regarding the original tweet, if the subject author is not the author of the tweet
+        #for example a retweet, or quote tweet
+        result_dictionary_b4_election['num_interactions_per_tweet4_b'] = interactions
+    results.append(result_dictionary_b4_election)
     return jsonify(results)
         
 
