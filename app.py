@@ -23,7 +23,7 @@ from flask_cors import CORS
 
 
 username = 'postgres'
-password = 'x'
+password = 'jWOLC89iuVoo'
 database = 'troll_tweet_project'
 #connect to local SQL db
 engine = create_engine(f'postgresql://{username}:{password}@localhost/{database}')
@@ -162,7 +162,7 @@ def num_followers(start, end):
 # In[ ]:
 
 
-#this route will return the average number of followers each account has that tweeted each day
+#this route will return the average number of accounts each account is that has tweeted each day
 @app.route('/api/data/following/<start>/<end>')
 def num_following(start, end):
     #todo - change comments to reflect following vs followers
