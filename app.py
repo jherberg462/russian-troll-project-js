@@ -231,7 +231,7 @@ def account_list():
     accounts = []
     results = []
     for handle in result:
-        accounts.append(handle)
+        accounts.append(handle[0])
     result_dictionary = {}
     result_dictionary['twitter_handle'] = accounts
     results.append(result_dictionary)
