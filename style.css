@@ -1,0 +1,17 @@
+body {
+    background-color: #1da1f2;
+}
+
+.container {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: white;
+}
+
+.jumbotron {
+    color: white;
+    background: linear-gradient(to right, #BF0A30, #002868) ;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
