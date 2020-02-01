@@ -123,11 +123,11 @@ def num_followers(start, end):
     engine.execute('ALTER TABLE avg_followers ADD COLUMN internal_number  SERIAL PRIMARY KEY;')
     #get updated reflection on the tables
     Base.prepare(engine, reflect=True)
-    #assign variable for the Avg_followers table to run queries on it
+#     #assign variable for the Avg_followers table to run queries on it
     Avg_followers = Base.classes.avg_followers
-    #selection for query
+#     #selection for query
     sel = [func.avg(Avg_followers.followers), Avg_followers.published_date]
-    #group by the published date
+#     #group by the published date
     result = session.query(*sel).group_by(Avg_followers.published_date)    
     #close connection to db
     session.close()
@@ -151,11 +151,12 @@ def num_followers(start, end):
     #add dates list to dictionary
     result_dictionary['dates'] = dates
     #add tweet average length list to dictionary
-    result_dictionary['average_num_of_followers'] = averages
+    result_dictionary['average_num_of_followers'] = followers
     #add dictionary to results list
     results.append(result_dictionary)
     #display in readable format
     return jsonify(results)
+#     return('success')
     
 
 
@@ -211,7 +212,7 @@ def num_following(start, end):
     #add dates list to dictionary
     result_dictionary['dates'] = dates
     #add tweet average length list to dictionary
-    result_dictionary['average_num_following'] = averages
+    result_dictionary['average_num_following'] = followingg
     #add dictionary to results list
     results.append(result_dictionary)
     #display in readable format
