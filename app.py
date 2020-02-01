@@ -23,7 +23,7 @@ from flask_cors import CORS
 
 
 username = 'postgres'
-password = 'jWOLC89iuVoo'
+password = 'x'
 database = 'troll_tweet_project'
 #connect to local SQL db
 engine = create_engine(f'postgresql://{username}:{password}@localhost/{database}')
@@ -125,33 +125,47 @@ def num_followers(start, end):
     Base.prepare(engine, reflect=True)
     #assign variable for the Avg_followers table to run queries on it
     Avg_followers = Base.classes.avg_followers
-    #selection for query
-    sel = [func.avg(Avg_followers.followers), Avg_followers.published_date]
-    #group by the published date
-    result = session.query(*sel).group_by(Avg_followers.published_date)    
-    #close connection to db
-    session.close()
     #create empty list for results
     results = []
     #create empty list for dates
     dates = []
     #create empty list for number of followers
     followers = []
-    for avg_followers, tweet_date in result:
-        #convert out to epoch format
-        tweet_date_converted = dt.datetime.fromtimestamp(tweet_date).strftime('%Y-%m-%d')
-        #add converted date to dates list
-        dates.append(tweet_date_converted)
-        #first convert to float
-        average_followers = float(avg_followers)
-        #add tweet length to list for averages
-        followers.append(average_followers)
     #create empty dictionary
     result_dictionary = {}
+    #selection for query
+    sel = [func.avg(Avg_followers.followers), Avg_followers.published_date]
+
+        #group by the published date
+    result = session.query(*sel).group_by(Avg_followers.published_date)   
+
+    #close connection to db
+    session.close()
+    try:
+        for avg_followers, tweet_date in result:
+            #convert out to epoch format
+            tweet_date_converted = dt.datetime.fromtimestamp(tweet_date).strftime('%Y-%m-%d')
+            #add converted date to dates list
+            dates.append(tweet_date_converted)
+            #first convert to float
+            average_followers = float(avg_followers)
+            #add tweet length to list for averages
+            followers.append(average_followers)
+    except:
+        session.close()
+        #add dates list to dictionary
+        result_dictionary['dates'] = dates
+        #add tweet average length list to dictionary
+        result_dictionary['average_num_of_followers'] = followers
+        #add dictionary to results list
+        results.append(result_dictionary)
+        #display in readable format
+        return jsonify(results)
+
     #add dates list to dictionary
     result_dictionary['dates'] = dates
     #add tweet average length list to dictionary
-    result_dictionary['average_num_of_followers'] = averages
+    result_dictionary['average_num_of_followers'] = followers
     #add dictionary to results list
     results.append(result_dictionary)
     #display in readable format
@@ -162,7 +176,7 @@ def num_followers(start, end):
 # In[ ]:
 
 
-#this route will return the average number of accounts each account is that has tweeted each day
+#this route will return the average number of followers each account has that tweeted each day
 @app.route('/api/data/following/<start>/<end>')
 def num_following(start, end):
     #todo - change comments to reflect following vs followers
@@ -186,9 +200,6 @@ def num_following(start, end):
     #assign variable for the Avg_followers table to run queries on it
     Avg_following = Base.classes.avg_following
     #selection for query
-    sel = [func.avg(Avg_following.follow), Avg_following.published_date]
-    #group by the published date
-    result = session.query(*sel).group_by(Avg_following.published_date)    
     #close connection to db
     session.close()
     #create empty list for results
@@ -197,21 +208,37 @@ def num_following(start, end):
     dates = []
     #create empty list for number of followers
     followingg = []
-    for avg_followin, tweet_date in result:
-        #convert out to epoch format
-        tweet_date_converted = dt.datetime.fromtimestamp(tweet_date).strftime('%Y-%m-%d')
-        #add converted date to dates list
-        dates.append(tweet_date_converted)
-        #first convert to float
-        avg_followinn = float(avg_followin)
-        #add tweet length to list for averages
-        followingg.append(avg_followinn)
     #create empty dictionary
     result_dictionary = {}
+    sel = [func.avg(Avg_following.follow), Avg_following.published_date]
+    #group by the published date
+    result = session.query(*sel).group_by(Avg_following.published_date) 
+    try:
+        for avg_followin, tweet_date in result:
+            #convert out to epoch format
+            tweet_date_converted = dt.datetime.fromtimestamp(tweet_date).strftime('%Y-%m-%d')
+            #add converted date to dates list
+            dates.append(tweet_date_converted)
+            #first convert to float
+            avg_followinn = float(avg_followin)
+            #add tweet length to list for averages
+            followingg.append(avg_followinn)
+    except:
+        session.close()
+        #if an error is thrown, a dictionary with empty lists will be returned
+        result_dictionary['dates'] = dates
+        #add tweet average length list to dictionary
+        result_dictionary['average_num_following'] = followingg
+        #add dictionary to results list
+        results.append(result_dictionary)
+        #display in readable format
+        return jsonify(results)
+
+
     #add dates list to dictionary
     result_dictionary['dates'] = dates
     #add tweet average length list to dictionary
-    result_dictionary['average_num_following'] = averages
+    result_dictionary['average_num_following'] = followingg
     #add dictionary to results list
     results.append(result_dictionary)
     #display in readable format
@@ -256,11 +283,11 @@ def account_dashbord(account):
         result_dictionary['latest_tweet'] = max_tweet_date1
         min_tweet_date1 = dt.datetime.fromtimestamp(min_tweet_date).strftime('%Y-%m-%d')
         result_dictionary['earliest_tweet'] = min_tweet_date1
-        result_dictionary['number_of_tweets'] = float(num_tweets)
+        result_dictionary['number_of_tweets'] = num_tweets
         result_dictionary['account_category'] = category
         #the interaction are regarding the original tweet, if the subject author is not the author of the tweet
         #for example a retweet, or quote tweet
-        result_dictionary['num_interactions_per_tweet'] = float(interactions)
+        result_dictionary['num_interactions_per_tweet'] = interactions
     #consider making a second query for information only prior to the election
     results.append(result_dictionary)
     #same query as above, but filtering by only tweets prior to Nov 8, 2016 (the 2016 election date)
@@ -273,11 +300,11 @@ def account_dashbord(account):
         result_dictionary_b4_election['latest_tweet_b4'] = max_tweet_date1
         min_tweet_date1 = dt.datetime.fromtimestamp(min_tweet_date).strftime('%Y-%m-%d')
         result_dictionary_b4_election['earliest_tweet_b4'] = min_tweet_date1
-        result_dictionary_b4_election['number_of_tweets_b4'] = float(num_tweets)
+        result_dictionary_b4_election['number_of_tweets_b4'] = num_tweets
         result_dictionary_b4_election['account_category_b4'] = category
         #the interaction are regarding the original tweet, if the subject author is not the author of the tweet
         #for example a retweet, or quote tweet
-        result_dictionary_b4_election['num_interactions_per_tweet4_b'] = float(interactions)
+        result_dictionary_b4_election['num_interactions_per_tweet4_b'] = interactions
     results.append(result_dictionary_b4_election)
     return jsonify(results)
         
@@ -288,4 +315,10 @@ def account_dashbord(account):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+# In[ ]:
+
+
+
 
