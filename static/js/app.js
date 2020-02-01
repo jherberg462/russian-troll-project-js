@@ -189,24 +189,35 @@ d3.selectAll("#selDataset").on("change", updateData);
 
 function updateData() {
 
-    
+    var twitter_handle = amymusicll
+
+    var url2 = `http://localhost:5000/api/data/account_dashbord/${twitter_handle}`;    
 
     d3.json(url2).then(function(data1) {
         // console.log(data1[0]);
 
     var tweetdata = data1
 
-    
+    var url = `http://localhost:5000/api/data/accounts`
 
     d3.json(url).then(function(data) {
         // console.log(data[0]);
 
+    var tweetdata = data1
+    var accountCategory = tweetdata.map(info => info.account_category);
+    var earliestTweet = tweetdata.map(info => info.earliest_tweet);
+    var latestTweet = tweetdata.map(info => info.latest_tweet);
+    var numInteractionpertweet = tweetdata.map(info => info.num_interactions_per_tweet);
+    var numTweets = tweetdata.map(info => info.number_of_tweets);
+    var twitterHandle = tweetdata.map(info => info.twitter_handle); 
+      
     var selection = d3.select("#selDataset");
     var selectedData = selection.property('value');
+    
     function filterTweetData(abc){
         return abc.id == selectedData
     }
-    var filteredID = tweetdata.filter(filterTweerData)
+    var filteredID = tweetdata.filter(filterTweetData)
 
     var filteredaccountCategory = filteredID.map(id => id.account_category);
     var filteredearliestTweet = filteredID.map(id => id.earliest_tweet);
