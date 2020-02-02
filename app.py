@@ -137,7 +137,7 @@ def num_followers(start, end):
     sel = [func.avg(Avg_followers.followers), Avg_followers.published_date]
 
         #group by the published date
-    result = session.query(*sel).group_by(Avg_followers.published_date)   
+    result = session.query(*sel).group_by(Avg_followers.published_date).order_by(Avg_followers.published_date)   
 
     #close connection to db
     session.close()
@@ -212,7 +212,7 @@ def num_following(start, end):
     result_dictionary = {}
     sel = [func.avg(Avg_following.follow), Avg_following.published_date]
     #group by the published date
-    result = session.query(*sel).group_by(Avg_following.published_date) 
+    result = session.query(*sel).group_by(Avg_following.published_date).order_by(Avg_following.published_date)
     try:
         for avg_followin, tweet_date in result:
             #convert out to epoch format

@@ -23,8 +23,8 @@ updateAccount1(accounts_data.twitter_handle[0])
 
 //display the averge tweet length chart with default dates
 avgTweetLength(start_default, end_default)
-
-
+//display the average number of followers chart with default dates
+followers(start_default, end_default)
 })
 
 //the updateAccount function will be called when the seldataset div is changed
@@ -60,7 +60,7 @@ function avgTweetLength(start, end){
     var tweet_len_url = `http://localhost:5000/api/data/tweet_len/${start}/${end}`
     d3.json(tweet_len_url).then(function(length_data){
        var tweet_length_data = length_data[0]
-        console.log(tweet_length_data)
+        // console.log(tweet_length_data)
 
         var trace = {
             type: "scatter",
@@ -85,16 +85,44 @@ function lenClick(){
     var clickEnd = lenStop.property("value")
     avgTweetLength(clickStart,clickEnd)
 }
+//when the button to update the average tweet length is clicked, the chart will update
 lenButton.on("click", lenClick)
 
 
-// function followers_following(start, end){
-//     var followers_url = `http://localhost:5000/api/data/followers/${start}/${end}`
-//     var b1 = d3.json(followers_url).then(function(followers_data){
-//         var followers = followers_data[0]
-//         return followers;
-//     })
-//    console.log (followers)
-// }
-// // come back to this
 
+
+function followers(start, end){
+    var followers_url = `http://localhost:5000/api/data/followers/${start}/${end}`
+    var b1 = d3.json(followers_url).then(function(followers_data){
+        var followers = followers_data[0]
+        
+        var trace = {
+            type: "scatter",
+            mode: "lines",
+            x: followers.dates,
+            y: followers.average_num_of_followers
+        }
+        var data = [trace]
+        var layout = {
+            title: `Average No of Followers - ${start} to ${end}`
+        }
+        Plotly.newPlot('num_followers', data, layout)
+        console.log('ack')
+        console.log(followers)
+
+
+    })
+ 
+}
+// end of followers function
+
+var followerButton = d3.select("#buttonFollow")
+var followStart = d3.select("#followersStart")
+var followStop = d3.select('#followersEnd')
+function followClick(){
+    var clickStart = followStart.property('value')
+    var clickEnd = followStop.property("value")
+    followers(clickStart,clickEnd)
+}
+//when the button to update the average tweet length is clicked, the chart will update
+followerButton.on("click", followClick)

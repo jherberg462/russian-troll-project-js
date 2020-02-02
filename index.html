@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Russian Troll Tweet Analysis</title>
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
@@ -39,18 +40,42 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-7">
         <P>All Tweets:</P>
         <div id="tweet_length"></div>
       </div>
       <!-- end of column div -->
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div id="tweet_len_calendars">
       <p>Start: <input type="text" id="lenDateStart"></p>
       <p>End: <input type="text" id="lenDateEnd"></p>
       <p><button id='buttonLen'> Update Tweet Length Chart</button></p>
     </div> 
     <!-- end of calendar div -->
+      </div>
+      <!-- end of column div -->
+    </div>
+    <!-- end of row div -->
+    <hr>
+    <div class="row">
+      <div class="col-md-4">
+        <p>Average Number of Followers</p>
+        <p>Start: <input type="text" id="followersStart"></p>
+        <p>End: <input type="text" id="followersEnd"></p>
+        <p><button id='buttonFollow'> Update Number of Followers Chart</button></p>
+
+        <p>Average Number of accounts being followed</p>
+        <p>Start: <input type="text" id="followingStart"></p>
+        <p>End: <input type="text" id="FollowingEnd"></p>
+        <p><button id='buttonFollowing'> Following Chart</button></p>
+      </div>
+      <!-- end of calendar column div  -->
+      <div class="col-md-5">
+        <div id="num_followers"></div>
+      </div>
+      <!-- end of column div -->
+      <div class="col-md-2">
+        <div id="num_following"></div>
       </div>
       <!-- end of column div -->
     </div>
@@ -72,6 +97,22 @@
 
   $( function() {
     $( "#lenDateEnd" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd"
+    });
+  } );
+
+  $( function() {
+    $( "#followersStart" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd"
+    });
+  } );
+
+  $( function() {
+    $( "#followersEnd" ).datepicker({
       changeMonth: true,
       changeYear: true,
       dateFormat: "yy-mm-dd"
