@@ -25,6 +25,8 @@ updateAccount1(accounts_data.twitter_handle[0])
 avgTweetLength(start_default, end_default)
 //display the average number of followers chart with default dates
 followers(start_default, end_default)
+//display the average number following chart with default dates
+following(start_default, end_default)
 })
 
 //the updateAccount function will be called when the seldataset div is changed
@@ -107,8 +109,7 @@ function followers(start, end){
             title: `Average No of Followers - ${start} to ${end}`
         }
         Plotly.newPlot('num_followers', data, layout)
-        console.log('ack')
-        console.log(followers)
+ 
 
 
     })
@@ -124,5 +125,40 @@ function followClick(){
     var clickEnd = followStop.property("value")
     followers(clickStart,clickEnd)
 }
-//when the button to update the average tweet length is clicked, the chart will update
+//when the button to update the average number of followers is clicked, the chart will update
 followerButton.on("click", followClick)
+
+
+function following(start, end){
+    var following_url = `http://localhost:5000/api/data/following/${start}/${end}`
+    var b1 = d3.json(following_url).then(function(following_data){
+        var followers = following_data[0]
+        
+        var trace = {
+            type: "scatter",
+            mode: "lines",
+            x: followers.dates,
+            y: followers.average_num_following 
+        }
+        var data = [trace]
+        var layout = {
+            title: `Average No Following - ${start} to ${end}`
+        }
+        Plotly.newPlot('num_following', data, layout)
+  
+
+
+    })
+ 
+}
+// end of following function
+
+var followingButton = d3.select("#buttonFollowing")
+var followingStart = d3.select("#followingStart")
+var followingStop = d3.select('#FollowingEnd')
+function followingClick(){
+    var clickStart = followingStart.property('value')
+    var clickEnd = followingStop.property("value")
+    followers(clickStart,clickEnd)
+}
+followingButton.on("click", followingClick)
