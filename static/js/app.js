@@ -1,0 +1,100 @@
+
+var accounts_url = 'http://localhost:5000/api/data/accounts'
+//url to grab a list of all accounts
+d3.json(accounts_url).then((accountsJson) =>{
+    accounts_data = accountsJson[0]
+    // console.log(accounts_data)
+    // console.log(accounts_data[0])
+
+    d3.select("select")
+    .selectAll("option")
+    .data(accounts_data.twitter_handle)
+    .enter()
+    .append('option')
+    .text(function(d){return d})
+    .attr("value", function(d){return d});
+
+
+    //set default values for time based charts
+    var start_default = '2016-05-01'
+    var end_default = '2016-06-01'
+    //the twitter account dashbord will display the first twitter account in the accounts list by default
+updateAccount1(accounts_data.twitter_handle[0])
+
+//display the averge tweet length chart with default dates
+avgTweetLength(start_default, end_default)
+
+
+})
+
+//the updateAccount function will be called when the seldataset div is changed
+d3.selectAll("#SelDataset").on("change", updateAccount)
+
+function updateAccount(){
+    var selectedAccount = d3.select("#selDataset");
+    var selectedAccount1 = selectedAccount.property('value');
+    updateAccount1(selectedAccount1)
+}
+
+
+
+function updateAccount1(account){
+    var account_dashbord_url = `http://localhost:5000/api/data/account_dashbord/${account}`
+    d3.json(account_dashbord_url).then(function(account_d_data){
+        account_data = account_d_data[0]
+        // console.log(account_data)
+
+        var accountInfoDiv = d3.select("#account_dashbord")
+        accountInfoDiv.html('')
+        accountInfoDiv.append("P").text("Twitter Handle Name: " + account_data.twitter_handle)
+        accountInfoDiv.append("P").text("Number of Tweets: " + account_data.number_of_tweets)
+        accountInfoDiv.append("p").text("Interactions per tweet: " + account_data.num_interactions_per_tweet)
+        accountInfoDiv.append("P").text("Earliest Tweet: " + account_data.earliest_tweet)
+        accountInfoDiv.append("p").text("Latest Tweet: " + account_data.latest_tweet)
+        accountInfoDiv.append("p").text("Category: " + account_data.account_category)
+    })
+}//end of updateAccount1 function
+
+
+function avgTweetLength(start, end){
+    var tweet_len_url = `http://localhost:5000/api/data/tweet_len/${start}/${end}`
+    d3.json(tweet_len_url).then(function(length_data){
+       var tweet_length_data = length_data[0]
+        console.log(tweet_length_data)
+
+        var trace = {
+            type: "scatter",
+            mode: "lines",
+            x: tweet_length_data.dates,
+            y: tweet_length_data.tweet_length
+        }
+        var data = [trace]
+        var layout = {
+            title: `Average Tweet Length - ${start} to ${end}`
+        }
+        Plotly.newPlot('tweet_length', data, layout)
+    })
+
+}//end of avgTweetLength function
+
+var lenButton = d3.select("#buttonLen")
+var lenStart = d3.select("#lenDateStart")
+var lenStop = d3.select('#lenDateEnd')
+function lenClick(){
+    var clickStart = lenStart.property('value')
+    var clickEnd = lenStop.property("value")
+    avgTweetLength(clickStart,clickEnd)
+}
+lenButton.on("click", lenClick)
+
+
+// function followers_following(start, end){
+//     var followers_url = `http://localhost:5000/api/data/followers/${start}/${end}`
+//     var b1 = d3.json(followers_url).then(function(followers_data){
+//         var followers = followers_data[0]
+//         return followers;
+//     })
+//    console.log (followers)
+// }
+// // come back to this
+

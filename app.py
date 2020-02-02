@@ -23,7 +23,7 @@ from flask_cors import CORS
 
 
 username = 'postgres'
-password = 'x'
+password = 'jWOLC89iuVoo'
 database = 'troll_tweet_project'
 #connect to local SQL db
 engine = create_engine(f'postgresql://{username}:{password}@localhost/{database}')

@@ -1,52 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Russian Troll Tweet Analysis</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Russian Troll Tweet Analysis</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
 
-    <body>
-        <div class="container">
-            <div class="row">
-              <div class="col-md-12 jumbotron text-center">
-                <h1>Russian Troll Tweet Analysis</h1>
-                <p>Dashboards display tweets ranging between Feb 2012 - May 2018.</p>
-                <p>Vast majority posted from 2015 through 2017</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-2">
-                <div class="well">
-                  <h5>Tweet Date Range:</h5>
-                  <select id="selDataset" onchange="optionChanged(this.value)"></select>
-                </div>
-                <div class="panel panel-primary">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">Followers</h3>
-                  </div>
-                  <div id="sample-metadata" class="panel-body"></div>
-                </div>
-              </div>
-              <div class="col-md-5">
-                <div id="bar"></div>
-              </div>
-              <div class="col-md-5">
-                <div id="line"></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div id="bubble"></div>
-              </div>
-            </div>
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>Russian Troll Tweet Analysis</h1>
+        <p>Tweets ranging between Feb 2012 - May 2018</p>
+        <p>Vast majority posted from 2015 through 2017</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="well">
+          <h5>Twitter Handle:</h5>
+          <select id="selDataset" onchange="updateAccount(this.value)"></select>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Twitter Account Summary</h3>
           </div>
-        
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
-          <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+          <div id="account_dashbord" class="panel-body">
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p> 
+            <p></p> 
+            <p></p>  
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <P>All Tweets:</P>
+        <div id="tweet_length"></div>
+      </div>
+      <!-- end of column div -->
+      <div class="col-md-3">
+        <div id="tweet_len_calendars">
+      <p>Start: <input type="text" id="lenDateStart"></p>
+      <p>End: <input type="text" id="lenDateEnd"></p>
+      <p><button id='buttonLen'> Update Tweet Length Chart</button></p>
+    </div> 
+    <!-- end of calendar div -->
+      </div>
+      <!-- end of column div -->
+    </div>
+    <!-- end of row div -->
+ 
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#lenDateStart" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd"
+    });
+  } );
 
-    </body>
+  $( function() {
+    $( "#lenDateEnd" ).datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd"
+    });
+  } );
+
+  </script>
+  
+
+
+  <script src="./static/js/app.js"></script>
+
+
+</body>
+
 </html>
+
+
