@@ -16,8 +16,8 @@ d3.json(accounts_url).then((accountsJson) =>{
 
 
     //set default values for time based charts
-    var start_default = '2016-05-01'
-    var end_default = '2016-06-01'
+    var start_default = '2016-05-08'
+    var end_default = '2016-08-11'
     //the twitter account dashbord will display the first twitter account in the accounts list by default
 updateAccount1(accounts_data.twitter_handle[0])
 
