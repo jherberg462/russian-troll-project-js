@@ -27,3 +27,21 @@ https://www.kaggle.com/fivethirtyeight/russian-troll-tweets
 7. Remove rows in the table in step 4 above that contain selected missing information.
 
 ### Flask App
+
+1. Create variables with the necessary information to connect to the PostgreSQl database.
+2. Create routes and define functions for each dynamic information that will be displayed on the dashbord. 
+3. Create route and define function for static information that will be used on the dashbord. 
+4. For each route created in steps 2 and 3 above, use SQLalchemy to pull data from PostgreSQL database, loop through results to add each row in the returned query to a list of dictionaries. 
+5. For each route created in steps 2 and 3 above, return the list of dictionaries referenced in step 4 above in JSON format.
+
+### Front End 
+
+1. Create webpage using HTML with appropiate DIV tags for each output and chart that will be displayed.
+2. Create Javascript file that will be called in the HTML webpage in step 1 above that will call each of the various flask routes when appropriate, and display the results as a plotly chart or text summary using D3. 
+
+## Using the Dashbord
+1. Create PostgreSQL database
+2. Run the jupyter notebook titled etl.ipynb after changing the variables in the 2nd box to allign with the database created in step 1 above.
+3. Run the SQL commands listed in the 5th box in the jupyter notebook titled etl.ipynb in PGadmin or other interface that interacts with the PostgreSQL database
+4. Start a python http server, and run the app.py file
+5. The dashbord will run on http://localhost:8000/
