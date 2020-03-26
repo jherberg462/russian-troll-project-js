@@ -30,7 +30,7 @@ https://www.kaggle.com/fivethirtyeight/russian-troll-tweets
 
 1. Create variables with the necessary information to connect to the PostgreSQl database.
 2. Create routes and define functions for each dynamic information that will be displayed on the dashboard. 
-3. Create a route and define function for static information that will be used on the dashboard. 
+3. Create a route and define a function for static information that will be used on the dashboard. 
 4. For each route created in steps 2 and 3 above, use SQLalchemy to pull data from PostgreSQL database, loop through results to add each row in the returned query to a list of dictionaries. 
 5. For each route created in steps 2 and 3 above, return the list of dictionaries referenced in step 4 above in JSON format.
 
