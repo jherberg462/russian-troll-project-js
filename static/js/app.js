@@ -1,5 +1,5 @@
 
-var accounts_url = 'http://russian-troll.herokuapp.com/api/data/accounts'
+var accounts_url = 'https://russian-troll.herokuapp.com/api/data/accounts'
 //url to grab a list of all accounts
 d3.json(accounts_url).then((accountsJson) =>{
     accounts_data = accountsJson[0]
@@ -41,7 +41,7 @@ function updateAccount(){
 
 
 function updateAccount1(account){
-    var account_dashbord_url = `http://russian-troll.herokuapp.com/api/data/account_dashbord/${account}`
+    var account_dashbord_url = `https://russian-troll.herokuapp.com/api/data/account_dashbord/${account}`
     d3.json(account_dashbord_url).then(function(account_d_data){
         account_data = account_d_data[0]
         // console.log(account_data)
@@ -59,7 +59,7 @@ function updateAccount1(account){
 
 
 function avgTweetLength(start, end){
-    var tweet_len_url = `http://russian-troll.herokuapp.com/api/data/tweet_len/${start}/${end}`
+    var tweet_len_url = `https://russian-troll.herokuapp.com/api/data/tweet_len/${start}/${end}`
     d3.json(tweet_len_url).then(function(length_data){
        var tweet_length_data = length_data[0]
         // console.log(tweet_length_data)
@@ -94,7 +94,7 @@ lenButton.on("click", lenClick)
 
 
 function followers(start, end){
-    var followers_url = `http://russian-troll.herokuapp.com/api/data/followers/${start}/${end}`
+    var followers_url = `https://russian-troll.herokuapp.com/api/data/followers/${start}/${end}`
     var b1 = d3.json(followers_url).then(function(followers_data){
         var followers = followers_data[0]
         
@@ -130,7 +130,7 @@ followerButton.on("click", followClick)
 
 
 function following(start, end){
-    var following_url = `http://russian-troll.herokuapp.com/api/data/following/${start}/${end}`
+    var following_url = `https://russian-troll.herokuapp.com/api/data/following/${start}/${end}`
     var b1 = d3.json(following_url).then(function(following_data){
         var followers = following_data[0]
         
