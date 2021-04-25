@@ -17,16 +17,19 @@ import time
 import warnings
 warnings.filterwarnings("ignore")
 from flask_cors import CORS
+import os
 
 
 # In[ ]:
 
-
+#not real credentials
 username = 'postgres'
 password = 'jWOLC89iuVoo'
 database = 'troll_tweet_project'
 #connect to local SQL db
-engine = create_engine(f'postgresql://{username}:{password}@localhost/{database}')
+db_url = os.environ['DATABASE_URL']
+
+engine = create_engine(f'postgresql://{db_url.split('://')[1]}')
 
 #create variable to connect to postgress db
 connection = engine.connect()
@@ -314,7 +317,7 @@ def account_dashbord(account):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
 
 
 # In[ ]:
