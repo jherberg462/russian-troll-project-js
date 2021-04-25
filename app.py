@@ -28,8 +28,8 @@ password = 'jWOLC89iuVoo'
 database = 'troll_tweet_project'
 #connect to local SQL db
 db_url = os.environ['DATABASE_URL']
-
-engine = create_engine(f'postgresql://{db_url.split('://')[1]}')
+db_url = db_url.split('://')[1]
+engine = create_engine(f'postgresql://{db_url}')
 
 #create variable to connect to postgress db
 connection = engine.connect()
