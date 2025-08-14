@@ -59,7 +59,7 @@ six==1.15.0
 SQLAlchemy==1.4.11
 terminado==0.9.4
 testpath==0.4.4
-tornado==6.1
+tornado==6.5
 traitlets==5.0.5
 wcwidth==0.2.5
 webencodings==0.5.1
